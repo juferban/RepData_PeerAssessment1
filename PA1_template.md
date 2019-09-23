@@ -8,6 +8,42 @@ output:
 
 ## Loading and preprocessing the data
 
+```r
+library(readr)
+library(dplyr)
+```
+
+```
+## 
+## Attaching package: 'dplyr'
+```
+
+```
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+```
+
+```
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+```
+
+```r
+library(ggplot2)
+
+df <- read_csv("activity.zip")
+```
+
+```
+## Parsed with column specification:
+## cols(
+##   steps = col_double(),
+##   date = col_date(format = ""),
+##   interval = col_double()
+## )
+```
 ## What is mean total number of steps taken per day?
 
 ###Calculate the total number of steps taken per day

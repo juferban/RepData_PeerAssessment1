@@ -7,7 +7,7 @@ output:
 
 
 ## Loading and preprocessing the data
-```{r echo = FALSE, include = FALSE}
+```{r echo = TRUE, include = TRUE}
 library(readr)
 library(dplyr)
 library(ggplot2)
