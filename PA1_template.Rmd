@@ -7,19 +7,89 @@ output:
 
 
 ## Loading and preprocessing the data
+```{r echo = FALSE, include = FALSE}
+library(readr)
+library(dplyr)
+library(ggplot2)
 
-
-
+df <- read_csv("activity.zip")
+```
 ## What is mean total number of steps taken per day?
 
+###Calculate the total number of steps taken per day
+```{r}
 
+total_step_day <- df %>%
+dplyr::group_by(date) %>%
+dplyr::summarize(total_steps = sum(steps, na.rm = TRUE))
+
+head(total_step_day)
+```
+###Histogram of number of steps each day
+```{r}
+hist(total_step_day$total_steps)
+```
+### Mean and median of total number of steps per dat
+```{r}
+mean_step_day <- mean(total_step_day$total_steps)
+print(paste0("Mean steps: ",mean_step_day))
+median_step_day <- median(total_step_day$total_steps)
+print(paste0("Median steps: ",median_step_day))
+```
 
 ## What is the average daily activity pattern?
+### interval pattern
+```{r}
+interval_pattern <- df %>%
+    dplyr::group_by(interval) %>%
+    dplyr::summarize(mean_steps = mean(steps, na.rm = TRUE))
 
-
-
+plot(y =interval_pattern$mean_steps, x = interval_pattern$interval, type = "l")
+```
 ## Imputing missing values
+### Number of missing values
+```{r}
 
+print(paste0("Missing values: ",nrow(df %>% dplyr::filter(is.na(steps)))))
 
+```
 
+### Impute missing values
+``` {r}
+df2 <- df %>% 
+    dplyr::mutate(steps = ifelse(is.na(steps), 
+        interval_pattern %>% dplyr::filter(interval == interval) %>% .$mean_steps,
+        steps))
+```
+
+###Calculate the total number of steps taken per day
+```{r}
+
+total_step_day2 <- df2 %>%
+dplyr::group_by(date) %>%
+dplyr::summarize(total_steps = sum(steps, na.rm = TRUE))
+
+head(total_step_day2)
+```
+
+###Histogram of number of steps each day
+```{r}
+hist(total_step_day2$total_steps)
+```
 ## Are there differences in activity patterns between weekdays and weekends?
+```{r}
+df2 <- df2 %>%
+    dplyr::mutate(day = weekdays(date),
+    week_day = factor(ifelse(day  %in% c("Saturday","Sunday"), "weekend", "weekday")))
+    
+interval_pattern2 <- df2 %>%
+    dplyr::group_by(interval, week_day) %>%
+    dplyr::summarize(mean_steps = mean(steps, na.rm = TRUE))
+
+p <- ggplot(interval_pattern2, aes(x=interval, y = mean_steps)) +
+geom_line() +
+facet_grid(week_day ~ .)
+
+print(p)
+```
+
