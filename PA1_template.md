@@ -70,6 +70,19 @@ plot(y =interval_pattern$mean_steps, x = interval_pattern$interval, type = "l")
 ```
 
 ![](PA1_template_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
+
+### What 5 minutes interval contain the max number of steps
+
+```r
+head(interval_pattern %>% 
+dplyr::arrange(desc(mean_steps)) %>%
+.$interval,1)
+```
+
+```
+## [1] 835
+```
+
 ## Imputing missing values
 ### Number of missing values
 
@@ -118,7 +131,7 @@ head(total_step_day2)
 hist(total_step_day2$total_steps)
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
+![](PA1_template_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
 ## Are there differences in activity patterns between weekdays and weekends?
 
 ```r
@@ -137,5 +150,5 @@ facet_grid(week_day ~ .)
 print(p)
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
+![](PA1_template_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
 

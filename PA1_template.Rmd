@@ -46,6 +46,14 @@ interval_pattern <- df %>%
 
 plot(y =interval_pattern$mean_steps, x = interval_pattern$interval, type = "l")
 ```
+
+### What 5 minutes interval contain the max number of steps
+```{r}
+head(interval_pattern %>% 
+dplyr::arrange(desc(mean_steps)) %>%
+.$interval,1)
+```
+
 ## Imputing missing values
 ### Number of missing values
 ```{r}
