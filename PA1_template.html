@@ -455,6 +455,7 @@ dplyr::arrange(desc(mean_steps)) %&gt;%
 </div>
 <div id="impute-missing-values" class="section level3">
 <h3>Impute missing values</h3>
+<p>Strategy used for imputing values is: Mean steps in the interval.</p>
 <pre class="r"><code>df2 &lt;- df %&gt;% 
     dplyr::mutate(steps = ifelse(is.na(steps), 
         interval_pattern %&gt;% dplyr::filter(interval == interval) %&gt;% .$mean_steps,
